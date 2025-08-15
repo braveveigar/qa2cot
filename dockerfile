@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-RUN rm /bin/sh && ln -s /bin/bash /bin
+# RUN rm /bin/sh && ln -s /bin/bash /bin
 
 ENV PYTHON_VERSION=3.10
 
