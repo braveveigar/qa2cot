@@ -1,26 +1,13 @@
-FROM ubuntu:22.04
-
-# RUN rm /bin/sh && ln -s /bin/bash /bin
-
-ENV PYTHON_VERSION=3.10
-
-RUN apt-get update && \
-    apt-get install -y python${PYTHON_VERSION} && \
-    apt-get install -y python3-pip && \
-    apt-get clean
+FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN \
-    echo 'alias python="/usr/bin/python3"' >> /root/.bashrc && \
-    echo 'alias pip="/usr/bin/pip3"' >> /root/.bashrc && \
-    source /root/.bashrc
-
+# 빌드 캐시 활용 위해 requirements 먼저 복사
 COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install -r requirements.txt
-
-# 프로젝트 파일 복사
+# 프로젝트 전체 복사
 COPY . .
 
+# 서버 실행
 CMD ["python3", "server.py"]
