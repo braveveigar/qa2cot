@@ -9,6 +9,7 @@ __pycache__/
 
 # 환경 변수
 .env
+.env.template
 
 # OS 쓰레기파일
 .DS_Store
