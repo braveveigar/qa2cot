@@ -1,0 +1,17 @@
+# Git 관련
+.git
+.gitignore
+README.md
+
+# Python 캐시
+__pycache__/
+*.pyc
+
+# 환경 변수
+.env
+
+# OS 쓰레기파일
+.DS_Store
+
+# 가상환경
+venv/
