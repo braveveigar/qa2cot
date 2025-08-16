@@ -42,5 +42,10 @@ jobs:
           sudo docker build -t qa2cot .
           sudo docker stop qa2cot || true
           sudo docker rm qa2cot || true
-          sudo docker run -d --name qa2cot -p 8000:8000 qa2cot
+            sudo docker run -d \
+              --name qa2cot \
+              -p 8000:8000 \
+              -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
+              -e LLM_MODEL=${{ secrets.LLM_MODEL }} \
+              qa2cot
         "
