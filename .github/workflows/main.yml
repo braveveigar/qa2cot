@@ -18,7 +18,7 @@ jobs:
 
     - name: Copy files and build
       run: |
-        ssh -i /tmp/my-key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+        ssh -i /tmp/key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
           cd /home/ubuntu/app || mkdir -p /home/ubuntu/app && cd /home/ubuntu/app
           git pull origin main
           docker build -t qa2cot .
