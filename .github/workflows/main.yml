@@ -11,10 +11,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup SSH key
+    - name: Write key to file
       run: |
-        echo "${{ secrets.EC2_KEY_B64 }}" | base64 --decode > /tmp/my-key.pem
-        chmod 600 /tmp/my-key.pem
+        echo "${{ secrets.EC2_KEY }}" > /tmp/key.pem
+        chmod 400 /tmp/key.pem
 
     - name: Copy files and build
       run: |
