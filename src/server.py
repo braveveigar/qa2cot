@@ -38,7 +38,7 @@ def qa2cot(data:QA, x_api_key: str = Header(...)):
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
 
-# llm model 목록
+# llm model 목록 불러오기
 @app.get("/llm_models")
 def get_llm_models( x_api_key: str = Header(...)):
     # api 검증
@@ -53,7 +53,7 @@ def get_llm_models( x_api_key: str = Header(...)):
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
 
-# COT 프롬프트 목록
+# COT 프롬프트 목록 불러오기
 @app.get("/prompts")
 def get_prompts(x_api_key: str = Header(...)):
     # api 검증
@@ -68,7 +68,7 @@ def get_prompts(x_api_key: str = Header(...)):
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
     
-# COT 목록
+# COT 목록 불러오기
 @app.get("/cot")
 def get_cot_list(x_api_key: str = Header(...)):
     # api 검증

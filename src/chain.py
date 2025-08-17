@@ -41,7 +41,13 @@ def qa_to_cot(question, answer, model_id, prompt_id):
         # 5. LLM 호출
         response = llm.invoke(cot_prompt)
 
-        cot_json = response.content if hasattr(response, "content") else response
+        # JSON 문자열 → dict, 실패하면 빈 dict나 문자열 저장
+        try:
+            cot_json = json.loads(response.content) if hasattr(response, "content") else json.loads(response)
+        except json.JSONDecodeError:
+            cot_json = {"steps": [], "summary": str(response)}
+
+        # DB 저장용 JSON 문자열
         cot_str = json.dumps(cot_json, ensure_ascii=False)
 
         cursor.execute("""
