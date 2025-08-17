@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-WORKDIR /app/src
+WORKDIR /app
 
 # 빌드 캐시 활용 위해 requirements 먼저 복사
 COPY requirements.txt requirements.txt
@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # 서버 실행
-CMD ["python3", "server.py"]
+CMD ["python3", "src/server.py"]
