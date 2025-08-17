@@ -43,7 +43,7 @@ jobs:
           sudo docker stop qa2cot || true
           sudo docker rm qa2cot || true
             sudo docker run -d \
-              --restart always
+              --restart always \
               --name qa2cot \
               -p 8000:8000 \
               -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
