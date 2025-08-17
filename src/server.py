@@ -40,7 +40,7 @@ def qa2cot(data:QA, x_api_key: str = Header(...)):
 
 # llm model 목록 불러오기
 @app.get("/llm_models")
-def get_llm_models( x_api_key: str = Header(...)):
+def get_llm_models(x_api_key: str = Header(...)):
     # api 검증
     verify_api_key(x_api_key)
     try:

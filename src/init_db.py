@@ -37,18 +37,22 @@ def init_db():
 당신은 Chain of Thought 라벨링 전문가입니다.
 주어진 질문과 답변을 보고 답변에 필요한 Chain of Thought을 JSON 구조로 단계별로 작성해주세요.
 
+다음 질문에 대해 Chain-of-Thought 단계를 JSON 형식으로 작성해 주세요.
+JSON 구조:
+{
+  "steps": [
+    {"step": 1, "description": "설명 내용"},
+    {"step": 2, "description": "설명 내용"}
+  ],
+  "summary": "최종 결론"
+}
+
 질문: {question}
 답변: {answer}
 
-출력 형식:
-{{
-"steps": [
-    {{"step": 1, "description": "..."}},
-    {{"step": 2, "description": "..."}},
-    ...
-],
-"summary": "..."
-}}
+주의:
+- JSON 외 다른 텍스트 출력하지 마세요.
+- steps 배열과 summary 필드를 반드시 포함하세요.
 '''
 
     # 샘플 프롬프트 저장
