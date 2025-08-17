@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /app/src
 
 # 빌드 캐시 활용 위해 requirements 먼저 복사
 COPY requirements.txt requirements.txt
