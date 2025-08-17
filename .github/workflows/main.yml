@@ -46,6 +46,6 @@ jobs:
               --name qa2cot \
               -p 8000:8000 \
               -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
-              -e LLM_MODEL=${{ secrets.LLM_MODEL }} \
+              -e SERVER_API_KEY=${{ secrets.SERVER_API_KEY}} \
               qa2cot
         "

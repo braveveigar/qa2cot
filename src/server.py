@@ -1,10 +1,15 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from typing import Optional
 from pydantic import BaseModel
 from chain import qa_to_cot
 from init_db import init_db
 import uvicorn
 import sqlite3
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+SERVER_API_KEY = os.getenv('SERVER_API_KEY')
 
 app = FastAPI()
 
@@ -14,9 +19,17 @@ class QA(BaseModel):
     model_id: Optional[int] = None
     prompt_id: Optional[int] = None
 
+# API 검증 함수
+def verify_api_key(x_api_key: str = Header(...)):
+    if x_api_key != SERVER_API_KEY:
+        raise HTTPException(status_code=401, detail="Invalid API Key")
+
 # 질문과 답변을 주면 COT를 반환
 @app.post("/qa2cot")
-def qa2cot(data:QA):
+def qa2cot(data:QA, x_api_key: str = Header(...)):
+    # api 검증
+    verify_api_key(x_api_key)
+
     model_id = data.model_id or 1
     prompt_id = data.prompt_id or 1
     try:
@@ -27,7 +40,9 @@ def qa2cot(data:QA):
 
 # llm model 목록
 @app.get("/llm_models")
-def get_llm_models():
+def get_llm_models( x_api_key: str = Header(...)):
+    # api 검증
+    verify_api_key(x_api_key)
     try:
         with sqlite3.connect('db.sqlite3') as conn:
             conn.row_factory = sqlite3.Row
@@ -40,7 +55,9 @@ def get_llm_models():
 
 # COT 프롬프트 목록
 @app.get("/prompts")
-def get_prompts():
+def get_prompts(x_api_key: str = Header(...)):
+    # api 검증
+    verify_api_key(x_api_key)
     try:
         with sqlite3.connect('db.sqlite3') as conn:
             conn.row_factory = sqlite3.Row
@@ -53,7 +70,9 @@ def get_prompts():
     
 # COT 목록
 @app.get("/cot")
-def get_cot_list():
+def get_cot_list(x_api_key: str = Header(...)):
+    # api 검증
+    verify_api_key(x_api_key)
     try:
         with sqlite3.connect('db.sqlite3') as conn:
             conn.row_factory = sqlite3.Row
