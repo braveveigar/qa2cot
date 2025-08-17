@@ -33,24 +33,17 @@ def init_db():
     )
 
     # 샘플 프롬프트
-    sample_prompt = (
-        "당신은 Chain of Thought 라벨링 전문가입니다.\n"
-        "주어진 질문과 답변을 보고 답변에 필요한 Chain of Thought을 JSON 구조로 단계별로 작성해주세요.\n\n"
-        "다음 질문에 대해 Chain-of-Thought 단계를 JSON 형식으로 작성해 주세요.\n"
-        "JSON 구조:\n"
-        "{\n"
-        '  "steps": [\n'
-        '    {"step": 1, "description": "설명 내용"},\n'
-        '    {"step": 2, "description": "설명 내용"}\n'
-        '  ],\n'
-        '  "summary": "최종 결론"\n'
-        "}\n\n"
-        "질문: {question}\n"
-        "답변: {answer}\n\n"
-        "주의:\n"
-        "- JSON 외 다른 텍스트 출력하지 마세요.\n"
-        "- steps 배열과 summary 필드를 반드시 포함하세요."
-        )
+    sample_prompt = '''
+당신은 Chain of Thought 라벨링 전문가입니다.
+주어진 질문과 답변을 보고 답변에 필요한 Chain of Thought을 딕셔너리 구조로 단계별로 작성해주세요.
+답변은 무조건 주어진 출력 형식에 맞춰주세요
+
+질문: {question}
+답변: {answer}
+
+출력 형식:
+{{"steps":[{{"step": 1, "description": "..."}},{{"step": 2, "description": "..."}},...],"summary": "..."}}
+'''
 
     # 샘플 프롬프트 저장
     cursor.execute('''

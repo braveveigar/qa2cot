@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import sqlite3
 import json
+import re
 
 load_dotenv()
 
@@ -74,9 +75,13 @@ def qa_to_cot(question, answer, model_id, prompt_id):
         # LLM 호출
         response = llm.invoke(cot_prompt)
 
-        try: 
-            cot_json = json.loads(response.content) if hasattr(response, "content") else json.loads(response)
-        except json.JSONDecodeError: # 실패시 빈 dict나 문자열 저장
+        # 호출 값 처리 및 검증
+        raw_text = response.content if hasattr(response, "content") else response
+        raw_text = re.sub(r",\s*}", "}", raw_text)
+        raw_text = re.sub(r",\s*]", "]", raw_text)
+        try:
+            cot_json = json.loads(raw_text)
+        except json.JSONDecodeError:
             cot_json = {"steps": [], "summary": str(response)}
 
         is_valid, cot_json, failure_detail = validate_cot(cot_json) #json 포맷 검증
