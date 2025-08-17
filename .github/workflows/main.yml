@@ -20,7 +20,7 @@ jobs:
       run: |
         ssh -i /tmp/key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
           # 앱 디렉토리 생성
-          mkdir -p /home/ubuntu/app
+          sudo mkdir -p /home/ubuntu/app
           cd /home/ubuntu/app
         
           # Docker 설치 여부 확인 후 설치
@@ -42,11 +42,11 @@ jobs:
           sudo docker build -t qa2cot .
           sudo docker stop qa2cot || true
           sudo docker rm qa2cot || true
-            sudo docker run -d \
-              --restart always \
-              --name qa2cot \
-              -p 8000:8000 \
-              -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
-              -e SERVER_API_KEY=${{ secrets.SERVER_API_KEY}} \
-              qa2cot
+          sudo docker run -d \
+            --restart always \
+            --name qa2cot \
+            -p 8000:8000 \
+            -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
+            -e SERVER_API_KEY=${{ secrets.SERVER_API_KEY}} \
+            qa2cot
         "
