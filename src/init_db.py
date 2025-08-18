@@ -53,6 +53,7 @@ def init_db():
 
     # 샘플 모델 저장
     cursor.execute('INSERT OR IGNORE INTO llm_model_list (model) VALUES (?)',('openai/gpt-oss-120b',))
+    cursor.execute('INSERT OR IGNORE INTO llm_model_list (model) VALUES (?)',('meta-llama/Llama-2-13b-chat-hf',))
 
     conn.commit()
     conn.close()

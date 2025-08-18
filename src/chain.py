@@ -1,4 +1,5 @@
 from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 import os
@@ -57,14 +58,25 @@ def qa_to_cot(question, answer, model_id, prompt_id):
         LLM_MODEL = cursor.execute('SELECT model FROM llm_model_list WHERE id = ?', (model_id,)).fetchone()[0]
         cot_prompt_text = cursor.execute('SELECT prompt FROM prompt_list WHERE id = ?', (prompt_id,)).fetchone()[0]
 
-        # 모델 설정
-        llm = ChatGroq(
-            model = LLM_MODEL,
-            max_tokens=1024,
-            reasoning_format="parsed",
-            timeout=None,
-            max_retries=2,
-            )
+        if model_id == 1:
+            # 모델 설정
+            llm = ChatGroq(
+                model = LLM_MODEL,
+                max_tokens=1024,
+                reasoning_format="parsed",
+                timeout=None,
+                max_retries=2,
+                )
+            
+        elif model_id == 2:
+            llm = ChatOpenAI(
+                openai_api_base="https://wtvkajelw6gs6j-8000.proxy.runpod.net/v1",
+                model="meta-llama/Llama-2-13b-chat-hf",
+                openai_api_key="dummy",
+                max_tokens=1024,
+                timeout=None,
+                max_retries=2 
+                )
 
         # 템플릿 생성
         cot_template = PromptTemplate.from_template(cot_prompt_text)
