@@ -4,8 +4,17 @@
 
 ![alt text](image.png)
 
-- COT는 Groq의 LLM을 이용해 자동화를 했습니다.
-- 결과는 SQLite3를 사용해 저장 및 불러오기를 했습니다.
+- COT는 LLM을 이용해 자동화를 했습니다.
+- 결과는 SQLite3를 사용해 저장 및 불러오기를 했습니다. 동일한 질문과 답변에 대해서도 결과를 비교할 수 있게 모델ID와 프롬프트ID를 같이 저장했습니다.
+- LLM을 호출하는 방식은 크게 직접 GPU 인스턴스를 사용해 VLLM에서 직접 호출하는 방식과 토큰 수만큼 비용이 발생하는 GroqAPI를 사용했습니다.
+
+
+>동일 모델 (GPT OSS 20B 128k) 기준 비용 비교  
+**Groq** : Input 10M tokens/\$1 Output 2M tokens/\$1   
+**RunPod** : \$1.74/ hour = \$1250/month.  
+input output 토큰을 1:1이라 가정시 10M당 \$6 발생
+1250 / 6 * 10M ≒ 2B   
+**처리량이 2B tokens를 넘길 경우 RunPod 운용이 더 유리 그 전에는 Groq이 유리**
 
 예시 input
 ```json
@@ -107,10 +116,10 @@ docker run -d -p 8000:8000 qa2cot
 ## 기술 스택
 - Python 3.10 : 메인 개발 언어
 - FastAPI : 백엔드 서버 API
-- LangChain + ChatGroq : LLM
+- LangChain, ChatGroq, vLLM : LLM
 - Docker : 환경
 - SQLite3 : DB
-- AWS Cloud : 클라우드 인프라
+- AWS Cloud, RunPod : 클라우드 인프라
 - GitHub Actions : DevOps
 
 ---
