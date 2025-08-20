@@ -36,7 +36,8 @@ def init_db():
     sample_prompt = '''
 당신은 Chain of Thought 라벨링 전문가입니다.
 주어진 질문과 답변을 보고 답변에 필요한 Chain of Thought을 딕셔너리 구조로 단계별로 작성해주세요.
-답변은 무조건 주어진 출력 형식에 맞춰주세요
+답변은 무조건 주어진 출력 형식에 맞춰주세요.
+딕셔너리만 반환하세요.
 
 질문: {question}
 답변: {answer}

@@ -94,7 +94,7 @@ def qa_to_cot(question, answer, model_id, prompt_id):
         try:
             cot_json = json.loads(raw_text)
         except json.JSONDecodeError:
-            cot_json = {"steps": [], "summary": str(response)}
+            cot_json = {"steps": [], "error": "JSON parsing error", "content":response.content}
 
         is_valid, cot_json, failure_detail = validate_cot(cot_json) #json 포맷 검증
         if is_valid: # 검증 성공 시
