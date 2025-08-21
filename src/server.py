@@ -49,6 +49,7 @@ def get_llm_models(x_api_key: str = Header(...)):
             cur = conn.cursor()
             cur.execute("SELECT * FROM llm_model_list")
             rows = cur.fetchall()
+            cur.close()
             return [dict(row) for row in rows]
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
@@ -64,6 +65,7 @@ def get_prompts(x_api_key: str = Header(...)):
             cur = conn.cursor()
             cur.execute("SELECT * FROM prompt_list")
             rows = cur.fetchall()
+            cur.close()
             return [dict(row) for row in rows]
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
@@ -79,7 +81,28 @@ def get_cot_list(x_api_key: str = Header(...)):
             cur = conn.cursor()
             cur.execute("SELECT * FROM cot_list")
             rows = cur.fetchall()
+            cur.close()
             return [dict(row) for row in rows]
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=f"ERROR: {e}")
+    
+class PROMPT(BaseModel):
+    prompt: str
+    
+@app.post("/postPrompt")
+def post_prompt(data:PROMPT, x_api_key: str = Header(...)):
+    # api 검증
+    verify_api_key(x_api_key)
+    try:
+        with sqlite3.connect('db.sqlite3') as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO prompt_list (prompt)
+                VALUES (?)
+            ''', (data.prompt,))
+            conn.commit()
+            cursor.close()
+        return {"status":"success","message":"프롬프트 저장 완료"}
     except Exception as e:
         raise HTTPException(status_code=500,detail=f"ERROR: {e}")
 
